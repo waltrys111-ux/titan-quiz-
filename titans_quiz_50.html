@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101114">
+<title>TITANS QUIZ — 50 вопросов для фанатов</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+:root{--bg:#0b0d10;--panel:#15191f;--panel2:#1d232b;--red:#e43b3b;--red2:#ff5656;--text:#f4f5f7;--muted:#9ba3ae;--line:rgba(255,255,255,.1);--gold:#e5b85c}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 50% -20%,#3b171a 0%,#171317 28%,var(--bg) 67%);color:var(--text);font-family:Manrope,Arial,sans-serif;min-height:100vh;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,black,transparent 85%)}
+button{font:inherit}
+.wrap{width:min(1050px,calc(100% - 36px));margin:auto;position:relative;z-index:1}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:24px 0;border-bottom:1px solid var(--line)}
+.brand{font-family:Oswald,sans-serif;font-weight:700;letter-spacing:5px;font-size:20px}.brand span{color:var(--red)}
+.status{font-size:10px;letter-spacing:2px;color:#c5c9cf;border:1px solid #444;border-radius:99px;padding:8px 12px}
+.hero{min-height:calc(100vh - 90px);display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:58px 0 75px}
+.eyebrow{font-size:11px;letter-spacing:4px;color:var(--red2);font-weight:800;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.eyebrow:before{content:"";height:2px;width:30px;background:var(--red)}
+h1,h2,h3,p{margin-top:0}
+h1{font:700 clamp(58px,9vw,108px)/.92 Oswald,sans-serif;letter-spacing:1px;margin:20px 0}
+h1 em{font-style:normal;color:var(--red);display:block;text-shadow:0 0 32px #e43b3b55}
+.lead{font-size:16px;line-height:1.8;color:#b9c0c9;max-width:510px}
+.stats{display:flex;gap:24px;margin:30px 0 34px;flex-wrap:wrap}
+.stat strong{display:block;font:600 27px Oswald,sans-serif}.stat small{color:var(--muted);font-size:10px;letter-spacing:1.5px;text-transform:uppercase}
+.btn{border:0;cursor:pointer;background:linear-gradient(110deg,#b9252b,#f04a4a);color:white;padding:17px 26px;border-radius:7px;font-weight:800;letter-spacing:1px;text-transform:uppercase;box-shadow:0 10px 35px #d52d3540;transition:.2s transform,.2s box-shadow}
+.btn:hover{transform:translateY(-3px);box-shadow:0 14px 40px #d52d3560}.btn:active{transform:scale(.98)}
+.hero-art{position:relative;min-height:430px;display:grid;place-items:center}
+.orbit{width:min(390px,80vw);aspect-ratio:1;border:1px solid #ffffff25;border-radius:50%;display:grid;place-items:center;position:relative;animation:rotate 24s linear infinite}
+.orbit:before,.orbit:after{content:"";position:absolute;border:1px solid #e43b3b55;border-radius:50%;inset:25px;transform:rotateX(68deg) rotate(25deg)}
+.orbit:after{inset:55px;transform:rotateY(70deg) rotate(-35deg);border-color:#ffffff30}
+.core{width:72%;height:72%;border-radius:50%;background:radial-gradient(circle at 50% 40%,#4a2528,#1a1b20 62%,#0b0d10);box-shadow:0 0 90px #e43b3b35,inset 0 0 60px #e43b3b22;display:grid;place-items:center;text-align:center;animation:counter 24s linear infinite}
+.core b{font:700 clamp(52px,7vw,80px)/.9 Oswald;letter-spacing:4px;text-shadow:0 8px 20px #000}.core small{display:block;color:#ff6b6b;letter-spacing:5px;font-size:10px;margin-top:12px}
+.orbit-label{position:absolute;background:#15191f;border:1px solid #ffffff25;padding:10px 13px;border-radius:6px;font-size:10px;letter-spacing:2px;color:#dfe2e6}
+.ol1{top:12%;right:-2%}.ol2{bottom:15%;left:-4%}.ol3{top:50%;left:-9%}
+@keyframes rotate{to{transform:rotate(360deg)}}@keyframes counter{to{transform:rotate(-360deg)}}@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}@keyframes pulse{50%{box-shadow:0 0 0 9px #e43b3b12,0 0 30px #e43b3b55}}
+.screen{display:none;animation:rise .45s ease both}.screen.active{display:block}
+.quiz-head{padding:42px 0 20px}.quiz-meta{display:flex;justify-content:space-between;align-items:center;gap:14px;color:var(--muted);font-size:12px;letter-spacing:1px;text-transform:uppercase}
+.progress{height:5px;background:#282e36;border-radius:20px;margin:18px 0 34px;overflow:hidden}.progress>div{height:100%;width:0;background:linear-gradient(90deg,#b9252b,#ff6868);transition:width .35s}
+.q-card{background:linear-gradient(145deg,#1b2028,#12161b);border:1px solid var(--line);border-radius:15px;padding:clamp(22px,5vw,42px);box-shadow:0 22px 65px #0005}
+.q-tag{display:inline-flex;color:#ff7777;background:#e43b3b18;border:1px solid #e43b3b45;padding:7px 10px;border-radius:4px;font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px}
+.question{font:600 clamp(25px,4vw,38px)/1.22 Oswald,sans-serif;max-width:800px;margin-bottom:28px}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.answer{display:flex;align-items:center;gap:14px;text-align:left;background:#20262e;border:1px solid #ffffff14;color:#e8ebef;padding:17px 16px;border-radius:8px;cursor:pointer;min-height:74px;transition:.18s}
+.answer:hover:not(:disabled){border-color:#e45a5a;background:#29252a;transform:translateY(-2px)}
+.answer .letter{width:30px;height:30px;flex:0 0 30px;border-radius:5px;background:#343b45;display:grid;place-items:center;font:600 16px Oswald;color:#fff}
+.answer.correct{border-color:#42b883;background:#143328}.answer.correct .letter{background:#23845b}
+.answer.wrong{border-color:#e34b4b;background:#351c20}.answer.wrong .letter{background:#a82d35}
+.answer:disabled{cursor:default}
+.feedback{display:none;margin-top:20px;padding:15px 17px;border-radius:8px;background:#ffffff08;border:1px solid var(--line);color:#c6cbd2;line-height:1.65;font-size:13px}
+.feedback.show{display:block;animation:rise .25s ease}.feedback strong{color:#fff}
+.q-footer{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-top:24px}
+.q-footer .note{font-size:11px;color:var(--muted)}
+.next{display:none}.next.show{display:inline-block}
+.result{text-align:center;padding:60px 0 80px}
+.medal{width:112px;height:112px;margin:0 auto 28px;border:1px solid #e5b85c88;border-radius:50%;display:grid;place-items:center;font-size:48px;background:radial-gradient(circle,#4b3920,#17191c 70%);box-shadow:0 0 50px #e5b85c22}
+.result h2{font:700 clamp(45px,8vw,75px)/1 Oswald;margin:0 0 14px}.result p{color:#aeb6c0;line-height:1.7}
+.score{font:700 72px Oswald;color:var(--gold);margin:18px 0 0}.score small{font-size:20px;color:#aeb6c0}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:600px;margin:28px auto 34px}
+.result-box{background:#171c22;border:1px solid var(--line);padding:17px;border-radius:8px}.result-box b{font:600 25px Oswald;display:block}.result-box small{font-size:10px;color:var(--muted);letter-spacing:1px}
+.result-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}.btn.secondary{background:#252b33;box-shadow:none;border:1px solid #ffffff20}
+.sources{border-top:1px solid var(--line);padding:22px 0 35px;color:#77808b;font-size:11px;line-height:1.8}.sources a{color:#b7bec8;text-decoration:none}.sources a:hover{color:#fff;text-decoration:underline}
+
+.start-options{display:grid;gap:10px;max-width:440px;margin-top:8px}
+.field-label{font-size:10px;letter-spacing:2px;color:#aeb6c0;font-weight:800;margin-top:8px}
+.start-options input[type=text],.start-options input:not([type]),.start-options select{width:100%;background:#1b2028;border:1px solid #ffffff25;border-radius:7px;padding:13px 14px;color:#fff;font:inherit;outline:none}
+.start-options input:focus,.start-options select:focus{border-color:var(--red2)}
+.start-options select option{background:#171c22;color:white}
+.toggles{display:flex;gap:18px;flex-wrap:wrap;color:#aeb6c0;font-size:12px;margin:6px 0}
+.toggles input{accent-color:var(--red)}
+.hero-buttons{display:flex;gap:10px;flex-wrap:wrap}
+.review-panel{max-width:760px;margin:35px auto 0;text-align:left;display:none}
+.review-panel.show{display:block}
+.review-item{padding:14px 16px;margin:9px 0;background:#171c22;border:1px solid var(--line);border-radius:8px;font-size:13px;line-height:1.6}
+.review-item b{display:block;color:#fff;margin-bottom:5px}
+.review-item .right{color:#70d7a4}.review-item .miss{color:#ff8585}
+.rank-row{display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:12px;padding:15px 10px;border-bottom:1px solid var(--line)}
+.rank-number{font:600 22px Oswald;color:var(--gold)}.rank-name{font-weight:800}.rank-meta{font-size:10px;color:var(--muted);margin-top:3px}.rank-score{font:600 23px Oswald;color:#fff}
+.timer-chip{font:600 18px Oswald;color:var(--gold);border:1px solid #e5b85c55;padding:7px 12px;border-radius:6px}
+@media(max-width:760px){.hero-buttons{display:grid;grid-template-columns:1fr 1fr}.toggles{gap:12px}}
+
+@media(max-width:760px){.hero{grid-template-columns:1fr;padding-top:45px;gap:5px}.hero-art{min-height:310px;order:-1}.orbit{width:280px}.ol1{right:0}.ol2{left:0}.ol3{left:-2%}.answers{grid-template-columns:1fr}.topbar{padding:18px 0}.status{font-size:9px}.hero{min-height:auto;padding-bottom:55px}.result-grid{grid-template-columns:repeat(3,1fr)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+.daily-strip{display:flex;align-items:center;gap:12px;padding:13px 15px;margin:17px 0 4px;background:linear-gradient(100deg,rgba(228,59,59,.16),rgba(255,255,255,.025));border:1px solid rgba(228,59,59,.3);border-radius:13px}
+.daily-icon{font-size:23px}.daily-strip span:nth-child(2){display:grid;gap:2px;flex:1}.daily-strip b{font-size:10px;letter-spacing:1.6px;color:#ff7777}.daily-strip small{font-size:10px;color:var(--muted)}.daily-strip strong{font:600 17px Oswald;color:var(--gold);white-space:nowrap}
+#shareBtn{border-color:rgba(229,184,92,.45);color:#f3d28e}
+@media(max-width:600px){.daily-strip{padding:11px}.daily-strip small{font-size:9px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar"><div class="brand">TITANS<span>.</span>QUIZ</div><div class="status">SPECIAL FAN EDITION · 2026</div></header>
+
+<main>
+<section class="screen active" id="home">
+<div class="hero">
+<div>
+<div class="eyebrow">ПРОВЕРЬ СВОЮ ПАМЯТЬ</div>
+<h1>ТЫ ГОТОВ?<em>ТИТАН.</em></h1>
+<p class="lead">50 вопросов о самом мощном спортивном шоу. Вспомни победителей, участников, легендарные испытания и детали всех сезонов. От первого уровня до экспертного.</p>
+<div class="stats">
+<div class="stat"><strong>50</strong><small>вопросов</small></div>
+<div class="stat"><strong>4 + 1</strong><small>сезонов и спецпроект</small></div>
+<div class="stat"><strong>∞</strong><small>сила памяти</small></div>
+</div>
+<div class="start-options">
+<label class="field-label" for="playerName">ТВОЁ ИМЯ НА АРЕНЕ</label>
+<input id="playerName" maxlength="18" placeholder="Например, Алекс" autocomplete="nickname">
+<label class="field-label" for="quizMode">РЕЖИМ ИСПЫТАНИЯ</label>
+<select id="quizMode"><option value="all">Полный турнир · 50 вопросов</option><option value="expert">Экспертный режим · сложные вопросы</option><option value="quick">Быстрый раунд · 10 вопросов</option><option value="daily">Ежедневный вызов · 5 вопросов</option></select>
+<div class="daily-strip"><span class="daily-icon">⚡</span><span><b>ЕЖЕДНЕВНЫЙ ВЫЗОВ</b><small>5 новых вопросов каждый день · серия побед сохраняется</small></span><strong id="streakValue">0 🔥</strong></div><div class="toggles"><label><input type="checkbox" id="soundToggle" checked> Звуковые эффекты</label><label><input type="checkbox" id="timerToggle"> Испытание на время</label></div>
+<div class="hero-buttons"><button class="btn" id="startBtn">Начать испытание&nbsp; →</button><button class="btn secondary" id="leaderboardBtn">Рейтинг</button></div>
+</div>
+</div>
+<div class="hero-art"><div class="orbit"><div class="core"><div><b>ТИТАНЫ</b><small>THE QUIZ</small></div></div></div><div class="orbit-label ol1">СИЛА</div><div class="orbit-label ol2">ВЫНОСЛИВОСТЬ</div><div class="orbit-label ol3">ИНТЕЛЛЕКТ</div></div>
+</div>
+</section>
+
+<section class="screen" id="quiz">
+<div class="quiz-head">
+<div class="quiz-meta"><span id="questionCounter">ВОПРОС 01 / 30</span><span id="difficulty">РАЗМИНКА</span><span id="timerDisplay" class="timer-chip" style="display:none">00:00</span></div>
+<div class="progress"><div id="progressBar"></div></div>
+</div>
+<div class="q-card">
+<div class="q-tag" id="category">ИСТОРИЯ ШОУ</div>
+<div class="question" id="questionText"></div>
+<div class="answers" id="answers"></div>
+<div class="feedback" id="feedback"></div>
+<div class="q-footer"><span class="note" id="scoreNote">Выбери один вариант ответа</span><button class="btn next" id="nextBtn">Дальше&nbsp; →</button></div>
+</div>
+</section>
+
+<section class="screen result" id="result">
+<div class="medal" id="medal">🏆</div>
+<div class="eyebrow" style="justify-content:center">ИСПЫТАНИЕ ЗАВЕРШЕНО</div>
+<h2 id="resultTitle">ТЫ — ТИТАН!</h2>
+<p id="resultText">Твой результат</p>
+<div class="score"><span id="finalScore">0</span><small> / 30</small></div>
+<div class="result-grid">
+<div class="result-box"><b id="correctCount">0</b><small>ВЕРНЫХ</small></div>
+<div class="result-box"><b id="wrongCount">0</b><small>ОШИБОК</small></div>
+<div class="result-box"><b id="percent">0%</b><small>ТОЧНОСТЬ</small></div>
+</div>
+<div class="result-actions"><button class="btn" id="retryBtn">Пройти ещё раз ↻</button><button class="btn secondary" id="reviewBtn">Разбор ответов</button><button class="btn secondary" id="shareBtn">Поделиться результатом ↗</button><button class="btn secondary" id="homeBtn">На главную</button></div>
+<div id="reviewPanel" class="review-panel"></div>
+</section>
+
+<section class="screen" id="leaderboard">
+<div class="quiz-head"><div class="eyebrow">ЗАЛ СЛАВЫ</div><h2 style="font:700 clamp(42px,7vw,68px) Oswald;margin:18px 0">РЕЙТИНГ ТИТАНОВ</h2><p style="color:var(--muted)">Лучшие результаты на этом устройстве.</p></div>
+<div class="q-card"><div id="leaderboardList"></div><div class="result-actions" style="margin-top:24px"><button class="btn secondary" id="leaderboardHome">На главную</button><button class="btn secondary" id="clearLeaderboard">Очистить рейтинг</button></div></div>
+<p class="rank-note">Рейтинг и серия ежедневных вызовов сохраняются в браузере на этом устройстве.</p>
+</section>
+</main>
+<footer class="sources">
+<strong style="color:#aeb6c0">О проекте</strong><br>
+Фанатский квиз по шоу «Титаны» телеканала ТНТ. Не является официальным сайтом шоу.<br>
+Источники для фактических вопросов:
+<a href="https://fmpgroup.ru/projects/titans/" target="_blank" rel="noopener">FMP Group — проект «Титаны»</a> ·
+<a href="https://www.rbc.ru/life/news/6ab4fdd80d0b2cd9dbeb8a2a" target="_blank" rel="noopener">РБК — 4-й сезон</a> ·
+<a href="https://www.vokrug.tv/article/show/17469754541/" target="_blank" rel="noopener">Вокруг ТВ — финал 2-го сезона</a> ·
+<a href="https://360.ru/news/kultura/nazvano-imja-pobeditelja-shou-titany-bitva-sezonov/" target="_blank" rel="noopener">360° — «Битва сезонов»</a> ·
+<a href="https://www.novochag.ru/obshchestvo/novosti/stal-izvesten-pobeditel-tretego-sezona-shou-titany/" target="_blank" rel="noopener">Новый очаг — финал 3-го сезона</a>
+</footer>
+</div>
+<script>
+const questions = [
+{d:"РАЗМИНКА",c:"ИДЕЯ ПРОЕКТА",q:"Кто разрабатывает испытания для участников шоу «Титаны»?",a:["Профессиональные тренеры телеканала","Искусственный интеллект","Зрители в прямом эфире","Сами участники"],k:1,e:"В основе проекта — испытания, разработанные искусственным интеллектом после анализа большого объёма данных."},
+{d:"РАЗМИНКА",c:"ИСТОРИЯ ШОУ",q:"На каком телеканале выходит шоу «Титаны»?",a:["СТС","Пятница!","ТНТ","Матч ТВ"],k:2,e:"«Титаны» — спортивное реалити телеканала ТНТ."},
+{d:"РАЗМИНКА",c:"ПЕРВЫЙ СЕЗОН",q:"В каком году состоялась премьера первого сезона?",a:["2022","2023","2024","2025"],k:2,e:"Премьерный выпуск вышел 26 мая 2024 года."},
+{d:"РАЗМИНКА",c:"ПЕРВЫЙ СЕЗОН",q:"Кто стал победителем первого сезона «Титанов»?",a:["Магомедрасул Рабаданов","Николай Бобылев","Кирилл Бельский","Олег Виллард"],k:0,e:"Первый сезон выиграл каскадёр и скалолаз Магомедрасул Рабаданов."},
+{d:"РАЗМИНКА",c:"ПЕРВЫЙ СЕЗОН",q:"Сколько атлетов участвовало в первом сезоне?",a:["88","99","105","111"],k:1,e:"В первом сезоне участвовали 99 атлетов."},
+{d:"РАЗМИНКА",c:"РЕКОРДЫ",q:"Какой рекорд на перекладине установил гимнаст Александр Сычугов в одном из испытаний?",a:["15 минут 20 секунд","18 минут 10 секунд","20 минут 40 секунд","22 минуты 15 секунд"],k:2,e:"Александр Сычугов продержался на перекладине 20 минут 40 секунд — рекорд попал в Книгу рекордов России."},
+{d:"ФАНАТ",c:"ВТОРОЙ СЕЗОН",q:"Сколько участников было во втором сезоне?",a:["99","105","111","120"],k:2,e:"Во втором сезоне, как и в нескольких следующих проектах, участвовал 111 атлет."},
+{d:"ФАНАТ",c:"ВТОРОЙ СЕЗОН",q:"Кто победил во втором сезоне?",a:["Никита Крюков","Николай Бобылев","Роман Власов","Алишер Хасанов"],k:1,e:"Победителем второго сезона стал Николай Бобылев, учитель физкультуры."},
+{d:"ФАНАТ",c:"ВТОРОЙ СЕЗОН",q:"Какое прозвище закрепилось за Николаем Бобылевым на проекте?",a:["Профессор","Физрук","Тренер","Маэстро"],k:1,e:"На проекте Николая Бобылева называли Физруком — он работает учителем физкультуры."},
+{d:"ФАНАТ",c:"ВТОРОЙ СЕЗОН",q:"Какое испытание стало заключительным в финале второго сезона?",a:["Перетягивание каната","Толкание бревна","Титанический аэробайк","Колесо Конана"],k:1,e:"В финале участники толкали общее бревно, стараясь сдвинуть его и сбить металлический столб на стороне соперника."},
+{d:"ФАНАТ",c:"ВТОРОЙ СЕЗОН",q:"С каким счётом Николай Бобылев выиграл заключительное испытание финала?",a:["2:1","3:0","3:1","4:2"],k:1,e:"Николай Бобылев победил в толкании бревна со счётом 3:0."},
+{d:"ФАНАТ",c:"ТРЕТИЙ СЕЗОН",q:"Кто стал победителем третьего сезона?",a:["Никита Ушнев","Кирилл Бельский","Александр Поветкин","Алексей Немов"],k:1,e:"Победителем третьего сезона стал Кирилл Бельский — чемпион России по функциональному многоборью ГТО."},
+{d:"ФАНАТ",c:"ТРЕТИЙ СЕЗОН",q:"В какой день завершился третий сезон?",a:["21 декабря 2025 года","12 декабря 2025 года","21 ноября 2025 года","26 декабря 2025 года"],k:0,e:"Финал третьего сезона состоялся 21 декабря 2025 года."},
+{d:"ФАНАТ",c:"ТРЕТИЙ СЕЗОН",q:"Сколько участников было в третьем сезоне?",a:["99","105","111","120"],k:2,e:"В третьем сезоне снова участвовали 111 человек."},
+{d:"ЭКСПЕРТ",c:"БИТВА СЕЗОНОВ",q:"Когда стартовал спецпроект «Титаны. Битва сезонов»?",a:["21 декабря 2025 года","25 января 2026 года","26 апреля 2026 года","13 сентября 2026 года"],k:1,e:"Премьера «Битвы сезонов» состоялась 25 января 2026 года."},
+{d:"ЭКСПЕРТ",c:"БИТВА СЕЗОНОВ",q:"Сколько атлетов вернулось в «Битву сезонов»?",a:["99","105","111","120"],k:2,e:"В специальном сезоне участвовали 111 атлетов из предыдущих трёх сезонов."},
+{d:"ЭКСПЕРТ",c:"БИТВА СЕЗОНОВ",q:"Сколько участников представляло каждый из первых трёх сезонов в «Битве сезонов»?",a:["25","30","37","40"],k:2,e:"В спецпроект отобрали по 37 участников из каждого из трёх предыдущих сезонов: всего 111."},
+{d:"ЭКСПЕРТ",c:"БИТВА СЕЗОНОВ",q:"Кто выиграл «Титаны. Битва сезонов»?",a:["Никита Крюков","Кирилл Бельский","Олег Виллард","Николай Бобылев"],k:2,e:"Победителем спецпроекта стал Олег Виллард."},
+{d:"ЭКСПЕРТ",c:"БИТВА СЕЗОНОВ",q:"Кого Олег Виллард встретил в суперфинале?",a:["Кирилла Колесникова","Никиту Крюкова","Николая Бобылева","Романа Власова"],k:1,e:"Соперником Олега Вилларда в суперфинале был олимпийский чемпион по лыжным гонкам Никита Крюков."},
+{d:"ЭКСПЕРТ",c:"БИТВА СЕЗОНОВ",q:"Как называлось решающее испытание суперфинала «Битвы сезонов»?",a:["Титанический футбол","Колесо Конана","Бесконечная тяга","Живой кран"],k:0,e:"В суперфинале Олег Виллард и Никита Крюков соревновались в испытании «Титанический футбол»."},
+{d:"ЭКСПЕРТ",c:"БИТВА СЕЗОНОВ",q:"Каковы были диаметр и вес мяча в «Титаническом футболе»?",a:["2 метра и 30 кг","3 метра и 50 кг","3 метра и 70 кг","4 метра и 50 кг"],k:1,e:"В финальном испытании использовали мяч диаметром 3 метра и весом 50 кг."},
+{d:"ЭКСПЕРТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"Когда стартовал четвёртый основной сезон «Титанов»?",a:["25 января 2026 года","26 апреля 2026 года","13 сентября 2026 года","21 сентября 2026 года"],k:2,e:"Премьера четвёртого сезона состоялась 13 сентября 2026 года."},
+{d:"ЭКСПЕРТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"Сколько участников заявлено в четвёртом сезоне?",a:["99","105","111","120"],k:2,e:"В четвёртом сезоне на площадку вышли 111 участников."},
+{d:"ЭКСПЕРТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"Как называлось испытание первого этапа четвёртого сезона?",a:["Бесконечное восхождение","Бесконечная тяга","Титанический аэробайк","Смешанный вис"],k:0,e:"Первое испытание четвёртого сезона называлось «Бесконечное восхождение»."},
+{d:"ЭКСПЕРТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"Под каким углом была установлена платформа в «Бесконечном восхождении»?",a:["15°","20°","30°","45°"],k:2,e:"Платформу для первого испытания установили под наклоном 30 градусов."},
+{d:"ЭКСПЕРТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"На какой высоте от пола участники удерживались в испытании «Смешанный вис»?",a:["Один метр","Полтора метра","Два метра","Три метра"],k:2,e:"В испытании «Смешанный вис» участники находились на высоте двух метров от пола."},
+{d:"ЭКСПЕРТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"За что участники держались руками в испытании «Смешанный вис»?",a:["За перекладину","За кольца","За канат","За подвесные рукояти"],k:1,e:"В «Смешанном висе» атлеты удерживались руками за кольца, а ногами — за деревянные упоры."},
+{d:"ЭКСПЕРТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"Кем по профессии является Александр Тарасов, известный как T-killah, участник четвёртого сезона?",a:["Певцом","Фигуристом","Боксёром","Лыжником"],k:0,e:"Александр Тарасов (T-killah) указан среди участников четвёртого сезона как певец."},
+{d:"ЭКСПЕРТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"Какой вид спорта представляет Анастасия Татарева в четвёртом сезоне?",a:["Художественная гимнастика","Спортивная гимнастика","Фигурное катание","Спортивные бальные танцы"],k:0,e:"Анастасия Татарева — спортсменка по художественной гимнастике."},
+{d:"ЭКСПЕРТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"Какой вид спорта указан в профиле Алексея Денисенко среди участников четвёртого сезона?",a:["Карате","Тхэквондо","Дзюдо","Самбо"],k:1,e:"В списке участников четвёртого сезона Алексей Денисенко указан как спортсмен по тхэквондо."}
+,
+{d:"ФАНАТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"Какой денежный приз заявлен для победителя четвёртого сезона «Титанов»?",a:["5 миллионов рублей", "7 миллионов рублей", "10 миллионов рублей", "15 миллионов рублей"],k:2,e:"В анонсе ТНТ для четвёртого сезона указан приз в 10 миллионов рублей."},
+{d:"ФАНАТ",c:"ФОРМАТ ШОУ",q:"Как обычно начинается каждый сезон «Титанов»?",a:["Командной эстафетой", "Масштабным индивидуальным испытанием для всех атлетов", "Поединком капитанов", "Турниром на выбывание между командами"],k:1,e:"По информации ТНТ, каждый сезон начинается с масштабного индивидуального испытания, в котором участвуют все атлеты."},
+{d:"ФАНАТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"Какой вид спорта представляет Никита Нагорный в четвёртом сезоне?",a:["Спортивная гимнастика", "Прыжки в воду", "Лёгкая атлетика", "Спортивная акробатика"],k:0,e:"Никита Нагорный — спортивный гимнаст и олимпийский чемпион."},
+{d:"ФАНАТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"В каком виде спорта известен Александр Большунов?",a:["Биатлон", "Лыжные гонки", "Конькобежный спорт", "Лыжное двоеборье"],k:1,e:"Александр Большунов — известный российский лыжник, специализирующийся на лыжных гонках."},
+{d:"ФАНАТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"Какой спортивный титул связан с Дмитрием Соловьёвым?",a:["Олимпийский чемпион по фигурному катанию", "Чемпион мира по плаванию", "Олимпийский чемпион по прыжкам в воду", "Чемпион Европы по боксу"],k:0,e:"Дмитрий Соловьёв — олимпийский чемпион по фигурному катанию в танцах на льду."},
+{d:"ФАНАТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"В какой дисциплине выступает Никита Филиппов?",a:["Ски-альпинизм", "Прыжки с трамплина", "Фристайл", "Сноуборд-кросс"],k:0,e:"ТНТ представляет Никиту Филиппова как спортсмена в ски-альпинизме."},
+{d:"ФАНАТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"Какой вид спорта представляет Илья Захаров?",a:["Плавание", "Прыжки в воду", "Синхронное плавание", "Водное поло"],k:1,e:"Илья Захаров — олимпийский чемпион по прыжкам в воду."},
+{d:"ФАНАТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"Какой вид спорта представляет Кристина Резцова?",a:["Лыжные гонки", "Биатлон", "Конькобежный спорт", "Прыжки на лыжах с трамплина"],k:1,e:"Кристина Резцова — российская биатлонистка."},
+{d:"ФАНАТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"В каком виде спорта известен Павел Мамаев?",a:["Баскетбол", "Футбол", "Хоккей", "Регби"],k:1,e:"Павел Мамаев — бывший профессиональный футболист."},
+{d:"ФАНАТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"Какое сочетание спортивных направлений указано для Алексея Папина?",a:["Бокс и кикбоксинг", "Самбо и дзюдо", "Карате и тхэквондо", "Борьба и грэпплинг"],k:0,e:"В анонсе ТНТ Алексей Папин назван боксёром и кикбоксёром."},
+{d:"ЭКСПЕРТ",c:"ЧЕТВЁРТЫЙ СЕЗОН",q:"Какое полное имя стоит за сценическим именем T-killah?",a:["Александр Тарасов", "Александр Зарубин", "Александр Панжинский", "Александр Земляков"],k:0,e:"T-killah — сценическое имя Александра Тарасова."},
+{d:"ЭКСПЕРТ",c:"ИСТОРИЯ ШОУ",q:"Какую роль искусственный интеллект выполняет в создании проекта?",a:["Только ведёт подсчёт очков", "Разрабатывает серию испытаний на основе анализа данных", "Выбирает победителя до финала", "Определяет спортивные разряды участников"],k:1,e:"По описанию проекта ТНТ, ИИ анализирует большой объём данных и создаёт испытания для проверки возможностей человека."},
+{d:"ЭКСПЕРТ",c:"ИСТОРИЯ ШОУ",q:"Какие качества участников прямо названы среди проверяемых в четвёртом сезоне?",a:["Сила, выносливость, координация и смекалка", "Только скорость и гибкость", "Только техника владения мячом", "Память, слух и артистизм"],k:0,e:"В официальном анонсе ТНТ перечислены сила, выносливость, координация и смекалка."},
+{d:"ЭКСПЕРТ",c:"БИТВА СЕЗОНОВ",q:"Сколько атлетов дошло до списка финалистов суперфинала «Битвы сезонов»?",a:["8", "10", "12", "16"],k:2,e:"Перед решающим финалом ТНТ назвал список из 12 финалистов."},
+{d:"ЭКСПЕРТ",c:"БИТВА СЕЗОНОВ",q:"Какой участник «Битвы сезонов» является олимпийским чемпионом по хоккею?",a:["Илья Ковальчук", "Роман Власов", "Никита Крюков", "Давид Чакветадзе"],k:0,e:"Илья Ковальчук — олимпийский чемпион по хоккею и участник спецсезона."},
+{d:"ЭКСПЕРТ",c:"БИТВА СЕЗОНОВ",q:"Какой вид борьбы представляет Роман Власов?",a:["Вольная борьба", "Греко-римская борьба", "Пляжная борьба", "Сумо"],k:1,e:"Роман Власов — двукратный олимпийский чемпион по греко-римской борьбе."},
+{d:"ЭКСПЕРТ",c:"УЧАСТНИКИ",q:"Какой необычной профессией известна Анна Кикина, участвовавшая в проекте?",a:["Полярный исследователь", "Космонавт-испытатель", "Морской биолог", "Пилот-испытатель самолётов"],k:1,e:"Анна Кикина — космонавт-испытатель и Герой России."},
+{d:"ЭКСПЕРТ",c:"УЧАСТНИКИ",q:"Какой силовой вид спорта представляет Виталий Лалетин?",a:["Армрестлинг", "Пауэрлифтинг", "Тяжёлая атлетика", "Стронгмен"],k:0,e:"Виталий Лалетин — многократный чемпион мира по армрестлингу."},
+{d:"ЭКСПЕРТ",c:"УЧАСТНИКИ",q:"В каком виде спорта прославился Евгений Рылов?",a:["Плавание", "Гребля", "Прыжки в воду", "Водное поло"],k:0,e:"Евгений Рылов — двукратный олимпийский чемпион по плаванию."},
+{d:"ЭКСПЕРТ",c:"УЧАСТНИКИ",q:"Какой вид спорта представляет Алексей Негодайло?",a:["Бобслей", "Скелетон", "Санный спорт", "Конькобежный спорт"],k:0,e:"Алексей Негодайло — олимпийский чемпион по бобслею."}
+];
+
+let index=0,score=0,answered=false,order=[],player="Игрок",soundOn=true,timed=false,seconds=0,timerHandle=null,answersLog=[];
+const $=id=>document.getElementById(id);
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+function beep(ok){
+ if(!soundOn)return;
+ try{const ctx=new (window.AudioContext||window.webkitAudioContext)();const osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type='sine';osc.frequency.value=ok?660:180;gain.gain.setValueAtTime(.08,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.18);osc.start();osc.stop(ctx.currentTime+.19);osc.onended=()=>ctx.close();}catch(e){}
+}
+function stopTimer(){if(timerHandle){clearInterval(timerHandle);timerHandle=null;}}
+function startTimer(){stopTimer();seconds=0;updateTimer();if(timed)timerHandle=setInterval(()=>{seconds++;updateTimer();},1000);}
+function updateTimer(){$('timerDisplay').textContent=String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');}
+function start(){
+ index=0;score=0;answered=false;answersLog=[];
+ player=($('playerName').value.trim()||'Игрок').slice(0,18);
+ soundOn=$('soundToggle').checked;timed=$('timerToggle').checked;
+ const mode=$('quizMode').value;
+ let chosen=questions.map((_,i)=>i);
+ if(mode==='expert')chosen=chosen.filter(i=>questions[i].d==='ЭКСПЕРТ');
+ if(mode==='quick')chosen=chosen.slice(0,10);
+ if(mode==='daily'){
+  const today=new Date();const seed=Number(`${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}`);
+  let state=seed>>>0;
+  const random=()=>{state=(state*1664525+1013904223)>>>0;return state/4294967296;};
+  chosen.sort(()=>random()-.5);chosen=chosen.slice(0,5);
+  $('questionCounter').textContent='ЕЖЕДНЕВНЫЙ ВЫЗОВ';
+ } else {
+  // Каждый обычный раунд получает новый случайный порядок.
+  chosen.sort(()=>Math.random()-.5);
+ }
+ order=chosen;
+ $('questionCounter').textContent=`ВОПРОС 01 / ${order.length}`;
+ $('timerDisplay').style.display=timed?'inline-block':'none';
+ startTimer();show('quiz');render();
+}
+function render(){
+ answered=false;const q=questions[order[index]];
+ $('questionCounter').textContent=`ВОПРОС ${String(index+1).padStart(2,'0')} / ${order.length}`;
+ $('difficulty').textContent=q.d;$('category').textContent=q.c;$('questionText').textContent=q.q;
+ $('progressBar').style.width=`${index/order.length*100}%`;
+ $('feedback').className='feedback';$('feedback').textContent='';$('nextBtn').classList.remove('show');
+ $('scoreNote').textContent='Выбери один вариант ответа';$('answers').innerHTML='';
+ q.a.forEach((answer,i)=>{
+  const b=document.createElement('button');b.className='answer';
+  b.innerHTML=`<span class="letter">${String.fromCharCode(65+i)}</span><span>${answer}</span>`;
+  b.addEventListener('click',()=>choose(i));$('answers').appendChild(b);
+ });
+}
+function choose(choice){
+ if(answered)return;answered=true;const q=questions[order[index]],buttons=[...$('answers').children];
+ buttons.forEach((b,i)=>{b.disabled=true;if(i===q.k)b.classList.add('correct');if(i===choice&&choice!==q.k)b.classList.add('wrong');});
+ const good=choice===q.k;if(good)score++;beep(good);
+ answersLog.push({q:q.q,chosen:q.a[choice],correct:q.a[q.k],good,explain:q.e});
+ $('feedback').innerHTML=`<strong>${good?'Верно! +1 балл':'Не совсем.'}</strong> ${q.e}`;
+ $('feedback').classList.add('show');$('scoreNote').textContent=good?'Отличная работа!':'Запомни этот факт — он ещё пригодится.';
+ $('nextBtn').textContent=index===order.length-1?'Узнать результат →':'Следующий вопрос →';$('nextBtn').classList.add('show');
+}
+function next(){if(!answered)return;index++;if(index<order.length)render();else finish();}
+function saveScore(){
+ try{const list=JSON.parse(localStorage.getItem('titansQuizScores')||'[]');list.push({name:player,score,total:order.length,date:new Date().toLocaleDateString('ru-RU'),seconds});list.sort((a,b)=>(b.score/b.total)-(a.score/a.total)||a.seconds-b.seconds);localStorage.setItem('titansQuizScores',JSON.stringify(list.slice(0,10)));}catch(e){}
+}
+function finish(){
+ stopTimer();$('progressBar').style.width='100%';$('finalScore').textContent=score;
+ if($('quizMode').value==='daily') updateDailyStreak();
+ $('correctCount').textContent=score;$('wrongCount').textContent=order.length-score;$('percent').textContent=Math.round(score/order.length*100)+'%';
+ let title,desc,medal;
+ const ratio=score/order.length;
+ if(ratio>=.9){title='ЛЕГЕНДА АРЕНЫ';desc='Безупречный результат. Ты знаешь историю «Титанов» почти на уровне энциклопедии.';medal='🏆';}
+ else if(ratio>=.73){title='НАСТОЯЩИЙ ТИТАН';desc='Очень мощный результат! Большинство деталей шоу тебе отлично знакомы.';medal='🥇';}
+ else if(ratio>=.53){title='СИЛЬНЫЙ ИГРОК';desc='Ты хорошо ориентируешься в проекте. Но несколько секретов арены ещё впереди.';medal='🥈';}
+ else if(ratio>=.3){title='ПЕРСПЕКТИВНЫЙ АТЛЕТ';desc='Хороший старт! Пересмотри любимые выпуски — и сможешь подняться выше.';medal='💪';}
+ else{title='НОВИЧОК АРЕНЫ';desc='Это только начало. Теперь у тебя есть повод узнать шоу ещё лучше.';medal='⚡';}
+ $('resultTitle').textContent=title;$('resultText').textContent=`${player}, ${desc} Время: ${$('timerDisplay').textContent}.`;
+ $('medal').textContent=medal;saveScore();show('result');
+}
+function showReview(){
+ const panel=$('reviewPanel');panel.innerHTML='<h3 style="font:600 26px Oswald">РАЗБОР ОТВЕТОВ</h3>';
+ answersLog.forEach((a,i)=>{const div=document.createElement('div');div.className='review-item';div.innerHTML=`<b>${i+1}. ${a.q}</b><span class="${a.good?'right':'miss'}">${a.good?'✓ Твой ответ: ':'✕ Твой ответ: '}${a.chosen}</span>${a.good?'':`<br><span class="right">Правильный ответ: ${a.correct}</span>`}<br><span style="color:#aeb6c0">${a.explain}</span>`;panel.appendChild(div);});
+ panel.classList.toggle('show');
+ $('reviewBtn').textContent=panel.classList.contains('show')?'Скрыть разбор':'Разбор ответов';
+}
+
+function dateKey(d=new Date()){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function getStreak(){try{return JSON.parse(localStorage.getItem('titansDailyStreak')||'{"count":0,"last":""}')}catch(e){return {count:0,last:''}}}
+function refreshStreak(){const data=getStreak();if($('streakValue'))$('streakValue').textContent=`${data.count||0} 🔥`;}
+function updateDailyStreak(){
+ const data=getStreak(),today=dateKey();
+ if(data.last!==today){
+  const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
+  data.count=(data.last===dateKey(yesterday))?(data.count||0)+1:1;
+  data.last=today;
+  try{localStorage.setItem('titansDailyStreak',JSON.stringify(data))}catch(e){}
+ }
+ refreshStreak();
+}
+async function shareResult(){
+ const textResult=`Я прошёл(ла) TITANS QUIZ и набрал(а) ${score} из ${order.length} баллов! Попробуй побить мой результат.`;
+ try{
+  if(navigator.share) await navigator.share({title:'TITANS QUIZ',text:textResult});
+  else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(textResult);$('shareBtn').textContent='Скопировано ✓';}
+  else alert(textResult);
+ }catch(e){if(e.name!=='AbortError')alert(textResult);}
+}
+function showLeaderboard(){
+ stopTimer();let list=[];try{list=JSON.parse(localStorage.getItem('titansQuizScores')||'[]')}catch(e){}
+ $('leaderboardList').innerHTML='';
+ if(!list.length){$('leaderboardList').innerHTML='<p style="color:var(--muted);text-align:center;padding:24px">Пока нет результатов. Пройди квиз и займи первое место!</p>';}
+ list.forEach((r,i)=>{const row=document.createElement('div');row.className='rank-row';row.innerHTML=`<div class="rank-number">${i+1}</div><div><div class="rank-name"></div><div class="rank-meta">${r.date} · ${r.total} вопросов · ${String(Math.floor(r.seconds/60)).padStart(2,'0')}:${String(r.seconds%60).padStart(2,'0')}</div></div><div class="rank-score">${r.score}/${r.total}</div>`;row.querySelector('.rank-name').textContent=r.name;$('leaderboardList').appendChild(row);});
+ show('leaderboard');
+}
+$('startBtn').addEventListener('click',start);$('nextBtn').addEventListener('click',next);$('retryBtn').addEventListener('click',start);
+$('homeBtn').addEventListener('click',()=>{stopTimer();$('reviewPanel').classList.remove('show');show('home')});
+$('reviewBtn').addEventListener('click',showReview);$('shareBtn').addEventListener('click',shareResult);$('leaderboardBtn').addEventListener('click',showLeaderboard);
+$('leaderboardHome').addEventListener('click',()=>show('home'));
+$('clearLeaderboard').addEventListener('click',()=>{if(confirm('Удалить все результаты рейтинга на этом устройстве?')){localStorage.removeItem('titansQuizScores');showLeaderboard();}});
+refreshStreak();
+
+</script>
+</body>
+</html>
